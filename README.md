@@ -1,5 +1,7 @@
 # Jessep's Note Taker App
 
+![notetakerscreenshot](https://user-images.githubusercontent.com/110129027/207656423-75ddd426-4af8-4157-9db3-26eb06ffe887.png)
+
 # Table of Contents
 
 1. [Project Title](#Title)
