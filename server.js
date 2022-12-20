@@ -40,5 +40,13 @@ app.post("/api/notes", (req, res) => {
       .catch((err) => res.status(500).json(err));
   });
 });
-//app.delete("/api/notes/:id", (req, res) => {});
+app.delete("/api/notes/:id", (req, res) => {
+  getNotes().then((oldNotes) => {
+    var newArray = oldNotes.filter((note) => note.id !== req.params.id);
+    console.log(newArray);
+    writeToFile("db/db.json", JSON.stringify(newArray))
+      .then(() => res.json({ msg: "success" }))
+      .catch((err) => res.status(500).json(err));
+  });
+});
 app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
