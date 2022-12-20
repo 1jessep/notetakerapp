@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
@@ -25,7 +25,9 @@ app.get("/notes", (req, res) => {
 });
 
 app.get("/api/notes", (req, res) => {
-  getNotes().then((notes) => res.json(notes));
+  getNotes()
+    .then((notes) => res.json(notes))
+    .catch((err) => res.status(500).json(err));
 });
 app.post("/api/notes", (req, res) => {
   getNotes().then((oldNotes) => {
@@ -33,10 +35,10 @@ app.post("/api/notes", (req, res) => {
       ...oldNotes,
       { title: req.body.title, text: req.body.text, id: uuidv4() },
     ];
-    writeToFile("db/db.json", JSON.stringify(newArray)).then(() =>
-      res.json({ msg: "okay" })
-    );
+    writeToFile("db/db.json", JSON.stringify(newArray))
+      .then(() => res.json({ msg: "okay" }))
+      .catch((err) => res.status(500).json(err));
   });
 });
-app.delete("/api/notes/:id", (req, res) => {});
+//app.delete("/api/notes/:id", (req, res) => {});
 app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
